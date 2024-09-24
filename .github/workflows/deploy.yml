@@ -1,0 +1,49 @@
+name: teste.codifylex deployment
+
+on: 
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+      run: echo Building the app
+
+  #desploy desenvolvimento
+  deploy-development:
+    runs-on: ubuntu-latest
+    enviroment:
+      name: development
+      url: https://development.techsplace.online
+    needs: build
+    steps:
+      - name: Repo Checkout
+        uses: action/checkout@v1
+      - name: Hostgator Deployment
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{secrets.SERVER_SSH_KEY}}
+          ARGS: "-rlgoDz --delete"
+          SOURCE: 
+
+# name: 🚀 Deploy website on push
+# jobs:
+#   web-deploy:
+#     name: 🎉 Deploy
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: 🚚 Get latest code
+#       uses: actions/checkout@v4
+    
+#     - name: 📂 Sync files
+#       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+#       with:
+#         server: ${{ secrets.ftp_host }}
+#         username: ${{ secrets.ftp_user }}
+#         password: ${{ secrets.ftp_password }}
