@@ -30,7 +30,7 @@ jobs:
         with:
           SSH_PRIVATE_KEY: ${{secrets.SERVER_SSH_KEY}}
           ARGS: "-rlgoDz --delete"
-          SOURCE: "public/"
+          SOURCE: "/"
           REMOTE_HOST: ${{vars.REMOTE_HOST}}
           REMOTE_USER: ${{vars.REMOTE_USER}}
           TARGET: ${{vars.TARGET}}
@@ -50,7 +50,7 @@ jobs:
         with:
           SSH_PRIVATE_KEY: ${{secrets.SERVER_SSH_KEY}}
           ARGS: "-rlgoDz --delete"
-          SOURCE: "public/"
+          SOURCE: "/"
           REMOTE_HOST: ${{vars.REMOTE_HOST}}
           REMOTE_USER: ${{vars.REMOTE_USER}}
           TARGET: ${{vars.TARGET}}
@@ -70,7 +70,7 @@ jobs:
         with:
           SSH_PRIVATE_KEY: ${{secrets.SERVER_SSH_KEY}}
           ARGS: "-rlgoDz --delete"
-          SOURCE: "public/"
+          SOURCE: "/"
           REMOTE_HOST: ${{vars.REMOTE_HOST}}
           REMOTE_USER: ${{vars.REMOTE_USER}}
           TARGET: ${{vars.TARGET}}
