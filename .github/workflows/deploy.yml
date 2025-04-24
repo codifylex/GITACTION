@@ -1,27 +1,18 @@
 name: teste.codifylex deployment
 
-on: 
+on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-  workflow_dispatch:
+    branches:
+      - main
+      - dev
+  release:
+    types: [created] # Dispara quando uma release é criada
 
 jobs:
-  build:
+  # Atualizar o código da branch main
+  deploy-main:
     runs-on: ubuntu-latest
-    steps:
-      - name: Build
-        run: echo Building the app
-
-  #deploy desenvolvimento
-  deploy-development:
-    runs-on: ubuntu-latest
-    environment:
-      name: development
-      url: ${{vars.URL}}
-    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v1
@@ -35,13 +26,10 @@ jobs:
           REMOTE_USER: ${{vars.REMOTE_USER}}
           TARGET: ${{vars.TARGET}}
 
-  #deploy homologation
+  # Atualizar o código de homologação (HML) quando uma release for criada
   deploy-homologation:
     runs-on: ubuntu-latest
-    environment:
-      name: homologation
-      url: ${{vars.URL}}
-    needs: deploy-development
+    if: github.event_name == 'release'
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v1
@@ -55,13 +43,10 @@ jobs:
           REMOTE_USER: ${{vars.REMOTE_USER}}
           TARGET: ${{vars.TARGET}}
 
-  #deploy production
-  deploy-production:
+  # Atualizar o código da branch dev
+  deploy-development:
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: ${{vars.URL}}
-    needs: deploy-homologation
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v1
@@ -74,4 +59,3 @@ jobs:
           REMOTE_HOST: ${{vars.REMOTE_HOST}}
           REMOTE_USER: ${{vars.REMOTE_USER}}
           TARGET: ${{vars.TARGET}}
-
