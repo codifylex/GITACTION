@@ -1,11 +1,10 @@
 name: teste.codifylex deployment
 
-on: 
+on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
   workflow_dispatch:
 
 jobs:
@@ -15,63 +14,62 @@ jobs:
       - name: Build
         run: echo Building the app
 
-  #deploy desenvolvimento
+  # deploy desenvolvimento
   deploy-development:
     runs-on: ubuntu-latest
     environment:
       name: development
-      url: ${{vars.URL}}
+      url: ${{ secrets.URL }}
     needs: build
     steps:
       - name: Repo Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: Hostgator Deployment
         uses: easingthemes/ssh-deploy@main
         with:
-          SSH_PRIVATE_KEY: ${{secrets.SERVER_SSH_KEY}}
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           ARGS: "-rlgoDz --delete"
           SOURCE: "/"
-          REMOTE_HOST: ${{vars.REMOTE_HOST}}
-          REMOTE_USER: ${{vars.REMOTE_USER}}
-          TARGET: ${{vars.TARGET}}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.TARGET }}
 
-  #deploy homologation
+  # deploy homologação
   deploy-homologation:
     runs-on: ubuntu-latest
     environment:
       name: homologation
-      url: ${{vars.URL}}
+      url: ${{ secrets.URL }}
     needs: deploy-development
     steps:
       - name: Repo Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: Hostgator Deployment
         uses: easingthemes/ssh-deploy@main
         with:
-          SSH_PRIVATE_KEY: ${{secrets.SERVER_SSH_KEY}}
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           ARGS: "-rlgoDz --delete"
           SOURCE: "/"
-          REMOTE_HOST: ${{vars.REMOTE_HOST}}
-          REMOTE_USER: ${{vars.REMOTE_USER}}
-          TARGET: ${{vars.TARGET}}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.TARGET }}
 
-  #deploy production
+  # deploy produção
   deploy-production:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: ${{vars.URL}}
+      url: ${{ secrets.URL }}
     needs: deploy-homologation
     steps:
       - name: Repo Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: Hostgator Deployment
         uses: easingthemes/ssh-deploy@main
         with:
-          SSH_PRIVATE_KEY: ${{secrets.SERVER_SSH_KEY}}
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           ARGS: "-rlgoDz --delete"
           SOURCE: "/"
-          REMOTE_HOST: ${{vars.REMOTE_HOST}}
-          REMOTE_USER: ${{vars.REMOTE_USER}}
-          TARGET: ${{vars.TARGET}}
-
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.TARGET }}
