@@ -76,7 +76,7 @@ jobs:
             echo "Executando migrations..."
             $PHP_BIN artisan migrate --force
 
-            echo ""
+            echo " "
             echo "Verificando se o banco já foi inicializado..."
 
             HAS_USERS=$($PHP_BIN artisan tinker --execute="echo \App\Models\User::count();" 2>/dev/null || echo "0")
