@@ -103,9 +103,11 @@ jobs:
             echo ""
             echo "Verificando APP_KEY..."
 
-            if ! grep -q "^APP_KEY=base64:" .env; then
-              echo "APP_KEY não encontrada. Gerando..."
-              $PHP_BIN artisan key:generate --force
+            APP_KEY=$(grep '^APP_KEY=' .env | cut -d= -f2-)
+
+            if [ -z "$APP_KEY" ]; then
+                echo "APP_KEY não encontrada. Gerando..."
+                $PHP_BIN artisan key:generate --force
             else
-              echo "APP_KEY já configurada."
+                echo "APP_KEY já configurada."
             fi
