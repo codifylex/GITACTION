@@ -96,18 +96,6 @@ jobs:
             chmod -R 775 bootstrap/cache
 
             echo ""
-            echo "Verificando APP_KEY..."
-
-            APP_KEY=$(grep '^APP_KEY=' .env 2>/dev/null | cut -d= -f2- || true)
-
-            if [ -z "$APP_KEY" ]; then
-                echo "APP_KEY não encontrada. Gerando..."
-                $PHP_BIN artisan key:generate --force
-            else
-                echo "APP_KEY já configurada."
-            fi
-
-            echo ""
             echo "========================================"
             echo " DEPLOY FINALIZADO COM SUCESSO"
             echo "========================================"
