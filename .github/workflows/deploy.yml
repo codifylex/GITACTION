@@ -1,4 +1,4 @@
-name: Deploy HostGator
+name: Deploy HostGator Laravel
 
 on:
   push:
@@ -16,31 +16,109 @@ jobs:
           host: ${{ vars.REMOTE_HOST }}
           username: ${{ vars.REMOTE_USER }}
           key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script_stop: true
+          command_timeout: 30m
           script: |
+
+            set -e
+
+            echo "========================================"
+            echo " INICIANDO DEPLOY"
+            echo "========================================"
+
+            echo ""
+            echo "Usuário:"
+            whoami
+
+            echo ""
+            echo "Diretório atual:"
+            pwd
+
+            echo ""
+            echo "Versão do PHP:"
+            php -v
+
+            echo ""
+            echo "Verificando Composer..."
+            if command -v composer >/dev/null 2>&1; then
+              composer --version
+            else
+              echo "ERRO: Composer não encontrado."
+              exit 1
+            fi
+
+            echo ""
+            echo "Entrando na aplicação..."
             cd /home1/techsp95/public_html
 
+            echo ""
+            echo "Diretório da aplicação:"
+            pwd
+
+            echo ""
+            echo "Arquivos encontrados:"
+            ls -la
+
+            echo ""
             echo "Atualizando código..."
             git fetch origin
+
             git reset --hard origin/main
 
+            echo ""
             echo "Instalando dependências..."
-            composer install --no-dev --optimize-autoloader --no-interaction
+            composer install \
+              --no-dev \
+              --prefer-dist \
+              --optimize-autoloader \
+              --no-interaction
 
+            echo ""
+            echo "Verificando .env..."
+
+            if [ ! -f ".env" ]; then
+              echo "ERRO: Arquivo .env não encontrado."
+              exit 1
+            fi
+
+            echo "OK"
+
+            echo ""
             echo "Limpando caches..."
+
             php artisan optimize:clear
 
-            echo "Criando caches..."
+            echo ""
+            echo "Gerando caches..."
+
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
 
+            echo ""
             echo "Executando migrations..."
+
             php artisan migrate --force
 
-            echo "Criando storage link..."
+            echo ""
+            echo "Criando Storage Link..."
+
             php artisan storage:link || true
 
+            echo ""
             echo "Ajustando permissões..."
-            chmod -R 775 storage bootstrap/cache
 
-            echo "Deploy concluído!"
+            chmod -R 775 storage
+            chmod -R 775 bootstrap/cache
+
+            echo ""
+            echo "Verificando estrutura..."
+
+            ls -la storage
+            ls -la bootstrap/cache
+
+            echo ""
+            echo "========================================"
+            echo " DEPLOY FINALIZADO COM SUCESSO"
+            echo "========================================"
