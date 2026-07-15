@@ -73,12 +73,12 @@ jobs:
             $PHP_BIN artisan --version
 
             echo ""
-            echo "Limpando caches..."
-            $PHP_BIN artisan optimize:clear
-
-            echo ""
             echo "Executando migrations..."
             $PHP_BIN artisan migrate --force
+
+            echo ""
+            echo "Limpando caches..."
+            $PHP_BIN artisan optimize:clear
 
             echo ""
             echo "Gerando caches..."
