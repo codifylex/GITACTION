@@ -77,6 +77,18 @@ jobs:
             $PHP_BIN artisan migrate --force
 
             echo ""
+            echo "Verificando se o banco já foi inicializado..."
+
+            HAS_USERS=$($PHP_BIN artisan tinker --execute="echo \App\Models\User::count();" 2>/dev/null || echo "0")
+
+            if [ "$HAS_USERS" = "0" ]; then
+                echo "Primeira instalação. Executando seeders..."
+                $PHP_BIN artisan db:seed --force
+            else
+                echo "Banco já inicializado. Seeders ignorados."
+            fi
+
+            echo ""
             echo "Limpando caches..."
             $PHP_BIN artisan optimize:clear
 
