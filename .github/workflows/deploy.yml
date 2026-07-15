@@ -34,19 +34,11 @@ jobs:
             whoami
 
             echo ""
-            echo "Diretório atual:"
-            pwd
-
-            echo ""
             echo "Versão do PHP:"
             $PHP_BIN -v
 
             echo ""
-            echo "PATH:"
-            echo $PATH
-
-            echo ""
-            echo "Composer:"
+            echo "Versão do Composer:"
             $COMPOSER --version
 
             echo ""
@@ -54,34 +46,13 @@ jobs:
             cd /home1/techsp95/public_html
 
             echo ""
-            echo "Diretório da aplicação:"
+            echo "Diretório:"
             pwd
-
-            echo ""
-            echo "Arquivos encontrados:"
-            ls -la
-
-            echo ""
-            echo "Verificando estrutura do Laravel..."
-
-            test -f artisan || { echo "❌ artisan não encontrado"; exit 1; }
-            test -d bootstrap || { echo "❌ pasta bootstrap não encontrada"; exit 1; }
-            test -d storage || { echo "❌ pasta storage não encontrada"; exit 1; }
-
-            echo "✅ Estrutura OK"
 
             echo ""
             echo "Atualizando código..."
             git fetch origin
             git reset --hard origin/main
-
-            echo ""
-            echo "Laravel:"
-            $PHP_BIN artisan --version
-
-            echo ""
-            echo "Extensões importantes:"
-            $PHP_BIN -m | grep -E "pdo|mbstring|openssl|curl|zip|intl|bcmath"
 
             echo ""
             echo "Instalando dependências..."
@@ -93,9 +64,13 @@ jobs:
 
             echo ""
             echo "Verificando .env..."
-            test -f .env || { echo "❌ .env não encontrado"; exit 1; }
+            test -f .env || { echo "❌ Arquivo .env não encontrado."; exit 1; }
 
             echo "✅ .env encontrado"
+
+            echo ""
+            echo "Laravel:"
+            $PHP_BIN artisan --version
 
             echo ""
             echo "Limpando caches..."
@@ -119,11 +94,6 @@ jobs:
             echo "Ajustando permissões..."
             chmod -R 775 storage
             chmod -R 775 bootstrap/cache
-
-            echo ""
-            echo "Verificando permissões..."
-            ls -la storage
-            ls -la bootstrap/cache
 
             echo ""
             echo "========================================"
