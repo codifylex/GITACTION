@@ -108,6 +108,22 @@ jobs:
             fi
 
             echo ""
+            echo "Verificando Node.js..."
+            node -v
+
+            echo ""
+            echo "Verificando NPM..."
+            npm -v
+
+            echo ""
+            echo "Instalando dependências do Node..."
+            npm install
+
+            echo ""
+            echo "Gerando assets do Vite..."
+            npm run build
+
+            echo ""
             echo "========================================"
             echo " DEPLOY FINALIZADO COM SUCESSO"
             echo "========================================"
