@@ -21,8 +21,8 @@ namespace App\Models{
  * @property string $document_number
  * @property int $installment
  * @property string $issue_date
- * @property string $due_date
- * @property string|null $payment_date
+ * @property \Illuminate\Support\Carbon $due_date
+ * @property \Illuminate\Support\Carbon|null $payment_date
  * @property numeric $original_amount
  * @property numeric $interest
  * @property numeric $fine
@@ -34,6 +34,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\PaymentMethod|null $paymentMethod
+ * @property-read \App\Models\Purchase|null $purchase
+ * @property-read \App\Models\Supplier|null $supplier
  * @method static \Database\Factories\AccountPayableFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountPayable newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountPayable newQuery()
@@ -73,8 +77,8 @@ namespace App\Models{
  * @property string $document_number
  * @property int $installment
  * @property string $issue_date
- * @property string $due_date
- * @property string|null $payment_date
+ * @property \Illuminate\Support\Carbon $due_date
+ * @property \Illuminate\Support\Carbon|null $payment_date
  * @property numeric $original_amount
  * @property numeric $interest
  * @property numeric $fine
@@ -86,6 +90,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property-read \App\Models\Client|null $client
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\PaymentMethod|null $paymentMethod
+ * @property-read \App\Models\Sale|null $sale
  * @method static \Database\Factories\AccountReceivableFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReceivable newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReceivable newQuery()
@@ -122,12 +130,16 @@ namespace App\Models{
  * @property string $name
  * @property string $slug
  * @property string|null $description
- * @property int $active
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read int|null $products_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand whereCompanyId($value)
@@ -138,6 +150,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand withoutTrashed()
  */
 	class Brand extends \Eloquent {}
 }
@@ -155,12 +169,20 @@ namespace App\Models{
  * @property int|null $account_payable_id
  * @property string $type
  * @property string $origin
- * @property string $movement_date
+ * @property \Illuminate\Support\Carbon $movement_date
  * @property numeric $amount
  * @property string $description
  * @property string|null $notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\AccountPayable|null $accountPayable
+ * @property-read \App\Models\AccountReceivable|null $accountReceivable
+ * @property-read \App\Models\CashRegister $cashRegister
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\PaymentMethod|null $paymentMethod
+ * @property-read \App\Models\Purchase|null $purchase
+ * @property-read \App\Models\Sale|null $sale
+ * @property-read \App\Models\User $user
  * @method static \Database\Factories\CashMovementFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CashMovement newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CashMovement newQuery()
@@ -193,8 +215,8 @@ namespace App\Models{
  * @property int $user_id
  * @property string $name
  * @property string|null $description
- * @property string $opened_at
- * @property string|null $closed_at
+ * @property \Illuminate\Support\Carbon $opened_at
+ * @property \Illuminate\Support\Carbon|null $closed_at
  * @property numeric $opening_balance
  * @property numeric $closing_balance
  * @property numeric $expected_balance
@@ -204,6 +226,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CashMovement> $movements
+ * @property-read int|null $movements_count
+ * @property-read \App\Models\User $user
  * @method static \Database\Factories\CashRegisterFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CashRegister newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CashRegister newQuery()
@@ -235,12 +261,16 @@ namespace App\Models{
  * @property string $name
  * @property string $slug
  * @property string|null $description
- * @property int $active
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read int|null $products_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereCompanyId($value)
@@ -251,6 +281,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category withoutTrashed()
  */
 	class Category extends \Eloquent {}
 }
@@ -277,12 +309,15 @@ namespace App\Models{
  * @property string|null $state
  * @property numeric $credit_limit
  * @property string|null $notes
- * @property int $active
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read string $document_formatted
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereAddress($value)
@@ -308,6 +343,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereTradeName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereZipCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutTrashed()
  */
 	class Client extends \Eloquent {}
 }
@@ -410,7 +447,7 @@ namespace App\Models{
  * @property string|null $protocol
  * @property string|null $receipt
  * @property string $status
- * @property string|null $issued_at
+ * @property \Illuminate\Support\Carbon|null $issued_at
  * @property string|null $authorized_at
  * @property string|null $cancelled_at
  * @property numeric $products_total
@@ -430,6 +467,11 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property-read \App\Models\Client|null $client
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $items
+ * @property-read int|null $items_count
+ * @property-read \App\Models\Sale|null $sale
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice query()
@@ -500,6 +542,8 @@ namespace App\Models{
  * @property numeric $total
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Invoice $invoice
+ * @property-read \App\Models\Product|null $product
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem query()
@@ -543,13 +587,22 @@ namespace App\Models{
  * @property string $name
  * @property string $code
  * @property string $type
- * @property int $installments
+ * @property bool $installments
  * @property int $generates_receivable
  * @property int $generates_cash
- * @property int $active
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AccountPayable> $accountsPayable
+ * @property-read int|null $accounts_payable_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AccountReceivable> $accountsReceivable
+ * @property-read int|null $accounts_receivable_count
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PurchasePayment> $purchasePayments
+ * @property-read int|null $purchase_payments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SalePayment> $salePayments
+ * @property-read int|null $sale_payments_count
  * @method static \Database\Factories\PaymentMethodFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaymentMethod newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaymentMethod newQuery()
@@ -580,10 +633,13 @@ namespace App\Models{
  * @property string|null $end_date
  * @property numeric $markup_percentage
  * @property numeric $discount_percentage
- * @property int $active
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PriceListItem> $items
+ * @property-read int|null $items_count
  * @method static \Database\Factories\PriceListFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PriceList newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PriceList newQuery()
@@ -619,6 +675,8 @@ namespace App\Models{
  * @property int $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\PriceList $priceList
+ * @property-read \App\Models\Product|null $product
  * @method static \Database\Factories\PriceListItemFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PriceListItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PriceListItem newQuery()
@@ -677,12 +735,23 @@ namespace App\Models{
  * @property numeric|null $promotional_price
  * @property numeric $profit_margin
  * @property int $featured
- * @property int $active
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Brand|null $brand
+ * @property-read \App\Models\Category|null $category
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductImage> $images
+ * @property-read int|null $images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\StockMovement> $movements
+ * @property-read int|null $movements_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Stock> $stocks
+ * @property-read int|null $stocks_count
+ * @property-read \App\Models\Unit|null $unit
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereAllowNegativeStock($value)
@@ -723,6 +792,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUnitId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereWidth($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product withoutTrashed()
  */
 	class Product extends \Eloquent {}
 }
@@ -740,6 +811,8 @@ namespace App\Models{
  * @property int $sort_order
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\Product|null $product
  * @method static \Database\Factories\ProductImageFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductImage newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductImage newQuery()
@@ -784,6 +857,13 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PurchaseItem> $items
+ * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PurchasePayment> $payments
+ * @property-read int|null $payments_count
+ * @property-read \App\Models\Supplier|null $supplier
+ * @property-read \App\Models\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Purchase newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Purchase newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Purchase query()
@@ -844,6 +924,8 @@ namespace App\Models{
  * @property string|null $notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Product|null $product
+ * @property-read \App\Models\Purchase $purchase
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseItem newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseItem query()
@@ -886,7 +968,7 @@ namespace App\Models{
  * @property int $purchase_id
  * @property int $payment_method_id
  * @property int $installment
- * @property string $due_date
+ * @property \Illuminate\Support\Carbon $due_date
  * @property string|null $payment_date
  * @property numeric $amount
  * @property numeric $interest
@@ -898,6 +980,8 @@ namespace App\Models{
  * @property string|null $notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\PaymentMethod $paymentMethod
+ * @property-read \App\Models\Purchase $purchase
  * @method static \Database\Factories\PurchasePaymentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchasePayment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchasePayment newQuery()
@@ -935,7 +1019,7 @@ namespace App\Models{
  * @property string|null $invoice_key
  * @property string $type
  * @property string $status
- * @property string $sale_date
+ * @property \Illuminate\Support\Carbon $sale_date
  * @property string|null $delivery_date
  * @property numeric $products_total
  * @property numeric $discount
@@ -951,6 +1035,14 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property-read \App\Models\Client|null $client
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\Invoice|null $invoice
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SaleItem> $items
+ * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SalePayment> $payments
+ * @property-read int|null $payments_count
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Sale newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Sale newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Sale query()
@@ -1015,6 +1107,8 @@ namespace App\Models{
  * @property string|null $notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Product|null $product
+ * @property-read \App\Models\Sale $sale
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SaleItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SaleItem newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SaleItem query()
@@ -1058,7 +1152,7 @@ namespace App\Models{
  * @property int $sale_id
  * @property int $payment_method_id
  * @property int $installment
- * @property string $due_date
+ * @property \Illuminate\Support\Carbon $due_date
  * @property string|null $payment_date
  * @property numeric $amount
  * @property numeric $interest
@@ -1070,6 +1164,8 @@ namespace App\Models{
  * @property string|null $notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\PaymentMethod $paymentMethod
+ * @property-read \App\Models\Sale $sale
  * @method static \Database\Factories\SalePaymentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalePayment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalePayment newQuery()
@@ -1106,6 +1202,9 @@ namespace App\Models{
  * @property string|null $last_movement_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\Product|null $product
+ * @property-read \App\Models\Warehouse|null $warehouse
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Stock newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Stock newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Stock query()
@@ -1141,6 +1240,10 @@ namespace App\Models{
  * @property int|null $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\Product|null $product
+ * @property-read \App\Models\User|null $user
+ * @property-read \App\Models\Warehouse|null $warehouse
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StockMovement newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StockMovement newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StockMovement query()
@@ -1179,6 +1282,11 @@ namespace App\Models{
  * @property string|null $notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\Warehouse|null $destinationWarehouse
+ * @property-read \App\Models\Warehouse|null $originWarehouse
+ * @property-read \App\Models\Product|null $product
+ * @property-read \App\Models\User $user
  * @method static \Database\Factories\StockTransferFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StockTransfer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StockTransfer newQuery()
@@ -1228,12 +1336,18 @@ namespace App\Models{
  * @property string|null $account
  * @property string|null $account_type
  * @property string|null $notes
- * @property int $active
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AccountPayable> $accountsPayable
+ * @property-read int|null $accounts_payable_count
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Purchase> $purchases
+ * @property-read int|null $purchases_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereAccount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereAccountType($value)
@@ -1266,6 +1380,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereWebsite($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereZipCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier withoutTrashed()
  */
 	class Supplier extends \Eloquent {}
 }
@@ -1277,12 +1393,16 @@ namespace App\Models{
  * @property string $name
  * @property string $symbol
  * @property string|null $description
- * @property int $active
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read int|null $products_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit whereCompanyId($value)
@@ -1293,6 +1413,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit whereSymbol($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Unit withoutTrashed()
  */
 	class Unit extends \Eloquent {}
 }
@@ -1300,20 +1422,24 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int $company_id
  * @property string $name
  * @property string $email
- * @property Carbon|null $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
+ * @property bool $active
  * @property string|null $remember_token
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read Collection<int, Permission> $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read Collection<int, Role> $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
- * @property-read Collection<int, Permission> $teams
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $teams
  * @property-read int|null $teams_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
@@ -1322,7 +1448,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User role($roles, ?string $guard = null, bool $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User team($teams, bool $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
@@ -1333,13 +1462,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, ?string $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTeam($teams)
- * @mixin \Eloquent
- * @property int $company_id
- * @property int $active
- * @property string|null $deleted_at
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCompanyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
  */
 	class User extends \Eloquent {}
 }
@@ -1358,13 +1480,21 @@ namespace App\Models{
  * @property string|null $district
  * @property string|null $city
  * @property string|null $state
- * @property int $active
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Stock> $stocks
+ * @property-read int|null $stocks_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\StockTransfer> $transfersFrom
+ * @property-read int|null $transfers_from_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\StockTransfer> $transfersTo
+ * @property-read int|null $transfers_to_count
  * @method static \Database\Factories\WarehouseFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse whereAddress($value)
@@ -1382,6 +1512,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse whereState($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse whereZipCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Warehouse withoutTrashed()
  */
 	class Warehouse extends \Eloquent {}
 }

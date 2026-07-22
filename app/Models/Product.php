@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -14,21 +15,52 @@ class Product extends Model
 
     protected $fillable = [
         'company_id',
+
         'category_id',
         'brand_id',
         'unit_id',
+
         'code',
+        'sku',
         'barcode',
+
         'name',
+        'slug',
         'description',
-        'cost_price',
-        'sale_price',
+
+        'type',
+
+        'ncm',
+        'cest',
+        'cfop',
+        'origin',
+        'cst_icms',
+        'csosn',
+
+        'stock_control',
+        'allow_negative_stock',
+
         'minimum_stock',
         'maximum_stock',
-        'ncm',
-        'cfop',
-        'cest',
-        'origin',
+
+        'location',
+
+        'batch_control',
+        'expiration_control',
+
+        'gross_weight',
+        'net_weight',
+
+        'height',
+        'width',
+        'length',
+
+        'cost_price',
+        'sale_price',
+        'promotional_price',
+        'profit_margin',
+
+        'featured',
         'active',
     ];
 
@@ -38,6 +70,8 @@ class Product extends Model
         'minimum_stock' => 'decimal:3',
         'maximum_stock' => 'decimal:3',
         'active' => 'boolean',
+        'featured' => 'boolean',
+        'stock_control' => 'boolean',
     ];
 
     public function company(): BelongsTo
@@ -73,5 +107,20 @@ class Product extends Model
     public function movements(): HasMany
     {
         return $this->hasMany(StockMovement::class);
+    }
+
+    public static function generateCode(int $companyId): string
+    {
+        $lastProduct = self::where('company_id', $companyId)
+            ->latest('id')
+            ->first();
+
+        if (!$lastProduct) {
+            return 'PROD-000001';
+        }
+
+        $number = intval(str_replace('PROD-', '', $lastProduct->code));
+
+        return 'PROD-' . str_pad($number + 1, 6, '0', STR_PAD_LEFT);
     }
 }

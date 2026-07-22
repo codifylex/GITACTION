@@ -4,49 +4,83 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StockTransfer extends Model
+class Client extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
 
     protected $fillable = [
+
         'company_id',
-        'origin_warehouse_id',
-        'destination_warehouse_id',
-        'product_id',
-        'user_id',
-        'quantity',
-        'status',
-        'observation',
+
+        'person_type',
+
+        'name',
+        'trade_name',
+
+        'document',
+
+        'state_registration',
+        'municipal_registration',
+
+        'email',
+
+        'phone',
+        'mobile',
+
+        'zip_code',
+
+        'address',
+        'number',
+        'complement',
+
+        'district',
+        'city',
+        'state',
+
+        'credit_limit',
+
+        'notes',
+
+        'active',
+
     ];
 
+
     protected $casts = [
-        'quantity' => 'decimal:3',
+
+        'credit_limit' => 'decimal:2',
+
+        'active' => 'boolean',
+
     ];
+
 
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function originWarehouse(): BelongsTo
-    {
-        return $this->belongsTo(Warehouse::class, 'origin_warehouse_id');
-    }
 
-    public function destinationWarehouse(): BelongsTo
+    public function getDocumentFormattedAttribute(): string
     {
-        return $this->belongsTo(Warehouse::class, 'destination_warehouse_id');
-    }
+        if ($this->person_type === 'F') {
 
-    public function product(): BelongsTo
-    {
-        return $this->belongsTo(Product::class);
-    }
+            return preg_replace(
+                '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                '$1.$2.$3-$4',
+                $this->document
+            );
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
+        }
+
+        return preg_replace(
+            '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+            '$1.$2.$3/$4-$5',
+            $this->document
+        );
     }
 }

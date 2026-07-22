@@ -49,10 +49,9 @@ class StoreProductRequest extends FormRequest
             */
 
             'code' => [
-                'required',
+                'nullable',
                 'string',
                 'max:30',
-                'unique:products,code,NULL,id,company_id,' . auth()->user()->company_id,
             ],
 
             'sku' => [

@@ -5,11 +5,13 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Client;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Unit;
 use App\Policies\BrandPolicy;
 use App\Policies\CategoryPolicy;
+use App\Policies\ClientPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\SupplierPolicy;
 use App\Policies\UnitPolicy;
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Category::class, CategoryPolicy::class);
         Gate::policy(Brand::class, BrandPolicy::class);
         Gate::policy(Unit::class, UnitPolicy::class);
+        Gate::policy(Client::class, ClientPolicy::class);
         Gate::policy(Supplier::class, SupplierPolicy::class);
         Gate::policy(Product::class, ProductPolicy::class);
     }

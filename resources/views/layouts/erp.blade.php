@@ -70,6 +70,12 @@
                                     <i class="bi bi-aspect-ratio text-muted"></i> Unidades
                                 </a>
                             </li>
+                             <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                    href="{{ route('clients.index') }}">
+                                    <i class="bi bi-people text-muted"></i> Clientes
+                                </a>
+                            </li>
                             <li>
                                 <a class="dropdown-item d-flex align-items-center gap-2"
                                     href="{{ route('suppliers.index') }}">

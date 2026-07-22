@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitController;
@@ -32,6 +33,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('brands', BrandController::class);
     Route::resource('units', UnitController::class);
+    Route::resource('clients', ClientController::class);
     Route::resource('suppliers', SupplierController::class);
+    Route::get('products/{product}/barcode', [ProductController::class, 'barcode'])->name('products.barcode');
     Route::resource('products', ProductController::class);
 });

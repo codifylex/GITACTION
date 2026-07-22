@@ -3,7 +3,7 @@
     <div>
         <h2 class="mb-0"></h2>
         <small class="text-muted">
-            
+
         </small>
     </div>
 
@@ -33,18 +33,17 @@
     <div class="card-body">
 
         <div class="row">
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Nome <span class="text-danger">*</span></label>
 
-            <div class="col-md-2 mb-3">
-                <label class="form-label">Código <span class="text-danger">*</span></label>
+                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                    value="{{ old('name', $product->name ?? '') }}" maxlength="255">
 
-                <input type="text" name="code" class="form-control @error('code') is-invalid @enderror"
-                    value="{{ old('code', $product->code ?? '') }}" maxlength="30">
-
-                @error('code')
+                @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-
+            
             <div class="col-md-2 mb-3">
                 <label class="form-label">SKU</label>
 
@@ -52,17 +51,6 @@
                     value="{{ old('sku', $product->sku ?? '') }}" maxlength="50">
 
                 @error('sku')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="col-md-3 mb-3">
-                <label class="form-label">Código de Barras</label>
-
-                <input type="text" name="barcode" class="form-control @error('barcode') is-invalid @enderror"
-                    value="{{ old('barcode', $product->barcode ?? '') }}" maxlength="50">
-
-                @error('barcode')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
@@ -153,16 +141,7 @@
                 @enderror
             </div>
 
-            <div class="col-md-12 mb-3">
-                <label class="form-label">Nome <span class="text-danger">*</span></label>
 
-                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                    value="{{ old('name', $product->name ?? '') }}" maxlength="255">
-
-                @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
 
         </div>
 

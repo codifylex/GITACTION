@@ -11,6 +11,8 @@ use App\Models\Unit;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Services\BarcodeService;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class ProductController extends Controller
 {
@@ -32,9 +34,9 @@ class ProductController extends Controller
 
             $query->where(function ($q) use ($search) {
                 $q->where('code', 'like', "%{$search}%")
-                  ->orWhere('sku', 'like', "%{$search}%")
-                  ->orWhere('barcode', 'like', "%{$search}%")
-                  ->orWhere('name', 'like', "%{$search}%");
+                    ->orWhere('sku', 'like', "%{$search}%")
+                    ->orWhere('barcode', 'like', "%{$search}%")
+                    ->orWhere('name', 'like', "%{$search}%");
             });
         }
 
@@ -77,7 +79,7 @@ class ProductController extends Controller
     /**
      * Salvar.
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request, BarcodeService $barcodeService)
     {
         $this->authorize('create', Product::class);
 
@@ -88,9 +90,11 @@ class ProductController extends Controller
             'brand_id' => $request->brand_id,
             'unit_id' => $request->unit_id,
 
-            'code' => $request->code,
+            'code' => Product::generateCode(
+                auth()->user()->company_id
+            ),
             'sku' => $request->sku,
-            'barcode' => $request->barcode,
+            'barcode' => $request->barcode ?: $barcodeService->generateEAN13(),
 
             'name' => $request->name,
             'slug' => Str::slug($request->name),
@@ -197,7 +201,7 @@ class ProductController extends Controller
 
             'code' => $request->code,
             'sku' => $request->sku,
-            'barcode' => $request->barcode,
+            'barcode' => $product->barcode,
 
             'name' => $request->name,
             'slug' => Str::slug($request->name),
@@ -256,5 +260,40 @@ class ProductController extends Controller
         return redirect()
             ->route('products.index')
             ->with('success', 'Produto removido com sucesso.');
+    }
+
+    public function barcode(Product $product)
+    {
+        $this->authorize('view', $product);
+
+        if (!$product->barcode) {
+
+            abort(404, 'Produto sem código de barras.');
+        }
+
+        if (strlen($product->barcode) != 13 || !ctype_digit($product->barcode)) {
+
+            abort(422, 'Código de barras inválido para EAN13.');
+        }
+
+
+        $generator = new BarcodeGeneratorPNG();
+
+
+        $barcode = base64_encode(
+            $generator->getBarcode(
+                $product->barcode,
+                BarcodeGeneratorPNG::TYPE_EAN_13
+            )
+        );
+
+
+        return view(
+            'products.barcode',
+            compact(
+                'product',
+                'barcode'
+            )
+        );
     }
 }
