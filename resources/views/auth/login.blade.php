@@ -9,7 +9,7 @@
             <div class="text-center mb-4">
 
                 <h1 class="fw-bold text-primary">
-                    📦 Estoque ERP
+                    📦 Estoque SYS
                 </h1>
 
                 <p class="text-muted">
@@ -117,7 +117,7 @@
 
             <div class="text-center mt-4 text-muted">
 
-                © {{ date('Y') }} Estoque ERP
+                © {{ date('Y') }} Estoque SYS
 
             </div>
 

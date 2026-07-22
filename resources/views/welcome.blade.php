@@ -154,7 +154,7 @@
 
         <div class="container text-center">
 
-            © {{ date('Y') }} Estoque ERP
+            © {{ date('Y') }} Estoque SYS
 
         </div>
 
