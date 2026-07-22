@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+  <defs>
+    <!-- Gradiente para o ícone 360 -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0052CC" />
+      <stop offset="100%" stop-color="#00C853" />
+    </linearGradient>
+  </defs>
+
+  <!-- Círculo / Arco 360 incompleto com seta -->
+  <g transform="translate(250, 140)">
+    <!-- Arco de Visão 360 -->
+    <path d="M -60,0 A 60,60 0 1,1 50,-30" fill="none" stroke="url(#blueGrad)" stroke-width="12" stroke-linecap="round"/>
+    
+    <!-- Seta indicando rotação/continuidade -->
+    <polygon points="50,-45 68,-22 40,-20" fill="#00C853" />
+
+    <!-- Bar Chart / Gráfico de Estoque Interno -->
+    <rect x="-28" y="0" width="10" height="25" rx="3" fill="#0052CC" />
+    <rect x="-12" y="-12" width="10" height="37" rx="3" fill="#0052CC" />
+    <rect x="4" y="-25" width="10" height="50" rx="3" fill="#0EA5E9" />
+    <rect x="20" y="-38" width="10" height="63" rx="3" fill="#00C853" />
+  </g>
+
+  <!-- Tipografia -->
+  <!-- ESTOQUE -->
+  <text x="250" y="270" font-family="'Segoe UI', Roboto, 'Helvetica Neue', sans-serif" font-size="42" font-weight="800" fill="#0F172A" text-anchor="middle" letter-spacing="3">
+    ESTOQUE
+  </text>
+  
+  <!-- 360 -->
+  <text x="250" y="325" font-family="'Segoe UI', Roboto, 'Helvetica Neue', sans-serif" font-size="38" font-weight="900" fill="url(#blueGrad)" text-anchor="middle" letter-spacing="6">
+    360
+  </text>
+</svg>

@@ -7,10 +7,8 @@
     <div class="col-12">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h2>Dashboard</h2>
-
                 <p class="text-muted">
-                    Bem-vindo ao ERP.
+                    Bem-vindo ao Estoque 360.
                 </p>
             </div>
         </div>

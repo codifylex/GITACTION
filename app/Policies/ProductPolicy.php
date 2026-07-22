@@ -4,52 +4,54 @@ namespace App\Policies;
 
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ProductPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Listagem.
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->can('products.view');
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Visualizar.
      */
     public function view(User $user, Product $product): bool
     {
-        return false;
+        return $user->company_id === $product->company_id
+            && $user->can('products.view');
     }
 
     /**
-     * Determine whether the user can create models.
+     * Criar.
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can('products.create');
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Atualizar.
      */
     public function update(User $user, Product $product): bool
     {
-        return false;
+        return $user->company_id === $product->company_id
+            && $user->can('products.update');
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Excluir.
      */
     public function delete(User $user, Product $product): bool
     {
-        return false;
+        return $user->company_id === $product->company_id
+            && $user->can('products.delete');
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Restaurar.
      */
     public function restore(User $user, Product $product): bool
     {
@@ -57,7 +59,7 @@ class ProductPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Exclusão permanente.
      */
     public function forceDelete(User $user, Product $product): bool
     {

@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Estoque SYS</title>
+    <title>Estoque360</title>
+
+    <!-- Ícone da Aba do Navegador (Favicon) -->
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo.svg') }}">
 
     @vite([
         'resources/css/app.css',
@@ -13,13 +16,19 @@
     ])
 </head>
 
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
         <div class="container">
 
-            <a class="navbar-brand fw-bold" href="/">
-                📦 Estoque SYS
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="/">
+                <!-- Logo na Navbar (Ícone/Compacta) -->
+                <img src="{{ asset('images/logo.svg') }}" 
+                     alt="Estoque360 Logo" 
+                     width="36" 
+                     height="36" 
+                     class="bg-white rounded-circle p-1">
+                <span>Estoque360</span>
             </a>
 
             <div class="ms-auto">
@@ -31,10 +40,6 @@
                 @else
                     <a href="{{ route('login') }}" class="btn btn-light me-2">
                         Entrar
-                    </a>
-
-                    <a href="{{ route('register') }}" class="btn btn-outline-light">
-                        Registrar
                     </a>
                 @endauth
 
@@ -90,12 +95,13 @@
 
                 </div>
 
-                <div class="col-lg-6 text-center">
+                <div class="col-lg-6 text-center mt-4 mt-lg-0">
 
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/263/263142.png"
-                        class="img-fluid"
-                        style="max-width:350px">
+                    <!-- Logo na Hero Section (Destaque Principal) -->
+                    <img src="{{ asset('images/logo.svg') }}" 
+                         alt="Estoque360 - Gestão Completa" 
+                         class="img-fluid" 
+                         style="max-width: 380px;">
 
                 </div>
 
@@ -150,11 +156,11 @@
 
     </section>
 
-    <footer class="bg-dark text-white py-4">
+    <footer class="bg-dark text-white py-4 mt-auto">
 
         <div class="container text-center">
 
-            © {{ date('Y') }} Estoque SYS
+            © {{ date('Y') }} Estoque360
 
         </div>
 

@@ -4,6 +4,10 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UnitController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,4 +30,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('companies', CompanyController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('brands', BrandController::class);
+    Route::resource('units', UnitController::class);
+    Route::resource('suppliers', SupplierController::class);
+    Route::resource('products', ProductController::class);
 });

@@ -1,130 +1,108 @@
 <x-guest-layout>
 
-<div class="container py-5">
+    <div class="container py-5">
 
-    <div class="row justify-content-center">
+        <div class="row justify-content-center">
 
-        <div class="col-md-5">
+            <div class="col-md-5">
 
-            <div class="text-center mb-4">
+                <div class="text-center mb-4">
+                    <a href="/" class="d-inline-block text-decoration-none">
+                        <img src="{{ asset('images/logo.svg') }}" alt="Estoque360" class="img-fluid d-block mx-auto"
+                            style="width: 220px; height: auto; min-height: 100px;">
+                    </a>
+                </div>
 
-                <h1 class="fw-bold text-primary">
-                    📦 Estoque SYS
-                </h1>
+                <div class="card shadow border-0">
 
-                <p class="text-muted">
-                    Sistema de Gestão de Estoque
-                </p>
+                    <div class="card-body p-5">
 
-            </div>
+                        <h3 class="text-center mb-4">
+                            Entrar no Sistema
+                        </h3>
 
-            <div class="card shadow border-0">
+                        <form method="POST" action="{{ route('login') }}">
 
-                <div class="card-body p-5">
+                            @csrf
 
-                    <h3 class="text-center mb-4">
-                        Entrar no Sistema
-                    </h3>
+                            <div class="mb-3">
 
-                    <form method="POST" action="{{ route('login') }}">
+                                <label class="form-label">
+                                    E-mail
+                                </label>
 
-                        @csrf
+                                <input type="email" name="email" value="{{ old('email') }}"
+                                    class="form-control @error('email') is-invalid @enderror" required autofocus>
 
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                E-mail
-                            </label>
-
-                            <input
-                                type="email"
-                                name="email"
-                                value="{{ old('email') }}"
-                                class="form-control @error('email') is-invalid @enderror"
-                                required
-                                autofocus>
-
-                            @error('email')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Senha
-                            </label>
-
-                            <input
-                                type="password"
-                                name="password"
-                                class="form-control @error('password') is-invalid @enderror"
-                                required>
-
-                            @error('password')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-
-                        </div>
-
-                        <div class="form-check mb-4">
-
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="remember"
-                                id="remember">
-
-                            <label
-                                class="form-check-label"
-                                for="remember">
-
-                                Lembrar-me
-
-                            </label>
-
-                        </div>
-
-                        <button
-                            class="btn btn-primary w-100 py-2">
-
-                            Entrar
-
-                        </button>
-
-                        @if (Route::has('password.request'))
-
-                            <div class="text-center mt-3">
-
-                                <a href="{{ route('password.request') }}">
-                                    Esqueci minha senha
-                                </a>
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
 
                             </div>
 
-                        @endif
+                            <div class="mb-3">
 
-                    </form>
+                                <label class="form-label">
+                                    Senha
+                                </label>
+
+                                <input type="password" name="password"
+                                    class="form-control @error('password') is-invalid @enderror" required>
+
+                                @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+
+                            </div>
+
+                            <div class="form-check mb-4">
+
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember">
+
+                                <label class="form-check-label" for="remember">
+
+                                    Lembrar-me
+
+                                </label>
+
+                            </div>
+
+                            <button class="btn btn-primary w-100 py-2">
+
+                                Entrar
+
+                            </button>
+
+                            @if (Route::has('password.request'))
+                                <div class="text-center mt-3">
+
+                                    <a href="{{ route('password.request') }}">
+                                        Esqueci minha senha
+                                    </a>
+
+                                </div>
+                            @endif
+
+                        </form>
+
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="text-center mt-4 text-muted">
 
-            <div class="text-center mt-4 text-muted">
+                    © {{ date('Y') }} Estoque360
 
-                © {{ date('Y') }} Estoque SYS
+                </div>
 
             </div>
 
         </div>
 
     </div>
-
-</div>
 
 </x-guest-layout>
