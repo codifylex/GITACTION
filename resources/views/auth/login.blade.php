@@ -80,9 +80,7 @@
                             @if (Route::has('password.request'))
                                 <div class="text-center mt-3">
 
-                                    <a href="{{ route('password.request') }}">
-                                        Esqueci minha senha
-                                    </a>
+                             
 
                                 </div>
                             @endif
